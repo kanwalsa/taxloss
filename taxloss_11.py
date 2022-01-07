@@ -2,6 +2,7 @@
 # run this file with the play button in VSCode
 # using pip install of openpyxl library
 
+# the only change here is the addition of the KWS variable
 
 from types import MethodDescriptorType
 
@@ -202,7 +203,7 @@ def harvestport(ws, msto, months, wdict):
                 yg[permno] = ygpro - 1
                 yp[months[m]] = yp[months[m]] + (yg[permno] * wdict[permno]) # calculate the weighted portfolio return
 
-                if yg[permno] < CUTOFF and (wdict[permno] + kws) < .5 : # this is the 'indicator'
+                if yg[permno] < CUTOFF and (wdict[permno] + kws) < KWS : # this is the 'indicator'
                     kickedps[permno] = addmonths(months[m], 12) # permno is key; assigned when stock is allowed back in
                     tokick.append(permno) # just note it b/c i don't want to mess with indexes
                     yhs[months[m]] = yhs[months[m]] + (wdict[permno] * yg[permno]) # t * w * yg[permno] --> sum them for each yg[permno]
@@ -277,6 +278,7 @@ datafiles = os.listdir(datadir)
 PORTSIZE = 100
 TAX = .1
 CUTOFF = 0
+KWS = .5 # how much of the portfolio is allowed to be kicked out at one time
 NUMSIM = 2
 OUTPUTWB = dir + "taxloss_out15.xlsx" #output workbook name
 MONTHCONV = "%Y %m"
